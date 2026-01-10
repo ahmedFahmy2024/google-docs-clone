@@ -4,12 +4,13 @@ import { TaskItem, TaskList } from "@tiptap/extension-list";
 import { TableKit } from "@tiptap/extension-table";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-// import Image from "@tiptap/extension-image";
+import Image from "@tiptap/extension-image";
 import ImageResize from "tiptap-extension-resize-image";
 import { useEditorStore } from "@/store/use-editor-store";
 import { FontFamily, TextStyle, Color } from "@tiptap/extension-text-style";
 import Highlight from "@tiptap/extension-highlight";
 import Link from "@tiptap/extension-link";
+import TextAlign from "@tiptap/extension-text-align";
 
 export const Editor = () => {
   const { setEditor } = useEditorStore();
@@ -52,7 +53,7 @@ export const Editor = () => {
       FontFamily,
       TextStyle,
       TaskList,
-      // Image,
+      Image,
       ImageResize,
       TaskItem.configure({
         nested: true,
@@ -65,6 +66,9 @@ export const Editor = () => {
         openOnClick: false,
         autolink: true,
         defaultProtocol: "https",
+      }),
+      TextAlign.configure({
+        types: ["heading", "paragraph"],
       }),
     ],
     content: `

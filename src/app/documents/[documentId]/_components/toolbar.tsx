@@ -22,6 +22,9 @@ import {
   TextColorButton,
   HighlightColorButton,
   LinkButton,
+  ImageButton,
+  AlignButton,
+  ListButton,
 } from "./helpers/helpers";
 
 interface ToolbarButtonProps {
@@ -176,6 +179,9 @@ export const Toolbar = () => {
       <div className="h-6 w-px bg-neutral-300" />
 
       <LinkButton />
+      <ImageButton />
+      <AlignButton />
+      <ListButton />
 
       {sections[2].map((item) => (
         <ToolbarButton key={item.label} {...item} />

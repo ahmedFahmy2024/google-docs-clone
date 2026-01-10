@@ -3,16 +3,29 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { useEditorStore } from "@/store/use-editor-store";
-import { ChevronDownIcon, Link2Icon, TrashIcon } from "lucide-react";
-import { useEditorState } from "@tiptap/react";
 import { type Level } from "@tiptap/extension-heading";
-import { type ColorResult, CirclePicker, SketchPicker } from "react-color";
-import { Input } from "@/components/ui/input";
+import { useEditorState } from "@tiptap/react";
+import {
+  ChevronDownIcon,
+  Link2Icon,
+  TrashIcon,
+  ImageIcon,
+  UploadIcon,
+  AlignLeftIcon,
+  AlignCenterIcon,
+  AlignRightIcon,
+  AlignJustifyIcon,
+  ListIcon,
+  ListOrderedIcon,
+} from "lucide-react";
 import { useState } from "react";
+import { type ColorResult, CirclePicker, SketchPicker } from "react-color";
 
 export const FontFamilyButton = () => {
   const { editor } = useEditorStore();
@@ -269,6 +282,185 @@ export const LinkButton = () => {
             <TrashIcon className="size-4" />
           </Button>
         )}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
+
+export const ImageButton = () => {
+  const { editor } = useEditorStore();
+  const [imageUrl, setImageUrl] = useState("");
+
+  const onChange = (src: string) => {
+    editor?.chain().focus().setImage({ src }).run();
+  };
+
+  const onUpload = () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.onchange = (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (file) {
+        const imageUrl = URL.createObjectURL(file);
+        onChange(imageUrl);
+      }
+    };
+    input.click();
+  };
+
+  const handleImageUrlSubmit = () => {
+    if (imageUrl) {
+      onChange(imageUrl);
+      setImageUrl("");
+    }
+  };
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant="ghost"
+          className="h-7 w-7 shrink-0 flex flex-col items-center justify-center rounded-sm hover:bg-neutral-200/80 p-0 overflow-hidden text-sm gap-y-0.5"
+        >
+          <ImageIcon className="size-4" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="p-2.5">
+        <div className="flex items-center gap-x-2">
+          <Input
+            placeholder="https://example.com"
+            value={imageUrl}
+            onChange={(e) => setImageUrl(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleImageUrlSubmit();
+              }
+            }}
+          />
+          <Button onClick={handleImageUrlSubmit}>Apply</Button>
+        </div>
+        <Button className="w-full mt-2" onClick={onUpload}>
+          <UploadIcon className="size-4 mr-2" />
+          Upload
+        </Button>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
+
+export const AlignButton = () => {
+  const { editor } = useEditorStore();
+
+  const editorState = useEditorState({
+    editor,
+    selector: (ctx) => ({
+      textAlign: ctx.editor?.getAttributes("textAlign").value,
+    }),
+  });
+
+  const alignments = [
+    {
+      label: "Align Left",
+      value: "left",
+      icon: AlignLeftIcon,
+    },
+    {
+      label: "Align Center",
+      value: "center",
+      icon: AlignCenterIcon,
+    },
+    {
+      label: "Align Right",
+      value: "right",
+      icon: AlignRightIcon,
+    },
+    {
+      label: "Align Justify",
+      value: "justify",
+      icon: AlignJustifyIcon,
+    },
+  ];
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant="ghost"
+          className="h-7 w-7 shrink-0 flex flex-col items-center justify-center rounded-sm hover:bg-neutral-200/80 p-0 overflow-hidden text-sm gap-y-0.5"
+        >
+          <AlignLeftIcon className="size-4" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="p-2.5">
+        {alignments.map(({ label, value, icon: Icon }) => (
+          <DropdownMenuItem
+            key={value}
+            onClick={() => editor?.chain().focus().setTextAlign(value).run()}
+            className={cn(
+              "flex items-center gap-x-2",
+              editorState?.textAlign === value && "bg-neutral-200/80",
+            )}
+          >
+            <Icon className="size-4" />
+            <span>{label}</span>
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
+
+export const ListButton = () => {
+  const { editor } = useEditorStore();
+
+  const editorState = useEditorState({
+    editor,
+    selector: (ctx) => ({
+      isList: ctx.editor?.isActive("bulletList"),
+      isOrderList: ctx.editor?.isActive("orderedList"),
+    }),
+  });
+
+  const lists = [
+    {
+      label: "Bullet List",
+      icon: ListIcon,
+      isActive: editorState?.isList,
+      onClick: () => editor?.chain().focus().toggleBulletList().run(),
+    },
+    {
+      label: "Ordered List",
+      icon: ListOrderedIcon,
+      isActive: editorState?.isOrderList,
+      onClick: () => editor?.chain().focus().toggleOrderedList().run(),
+    },
+  ];
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant="ghost"
+          className="h-7 w-7 shrink-0 flex flex-col items-center justify-center rounded-sm hover:bg-neutral-200/80 p-0 overflow-hidden text-sm gap-y-0.5"
+        >
+          <ListIcon className="size-4" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="p-2.5">
+        {lists.map(({ label, icon: Icon, isActive, onClick }) => (
+          <DropdownMenuItem
+            key={label}
+            onClick={() => onClick()}
+            className={cn(
+              "flex items-center gap-x-2",
+              isActive && "bg-neutral-200/80",
+            )}
+          >
+            <Icon className="size-4" />
+            <span>{label}</span>
+          </DropdownMenuItem>
+        ))}
       </DropdownMenuContent>
     </DropdownMenu>
   );
