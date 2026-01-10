@@ -16,6 +16,13 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useEditorStore } from "@/store/use-editor-store";
+import {
+  FontFamilyButton,
+  HeadingLevelButton,
+  TextColorButton,
+  HighlightColorButton,
+  LinkButton,
+} from "./helpers/helpers";
 
 interface ToolbarButtonProps {
   onClick?: () => void;
@@ -151,11 +158,24 @@ export const Toolbar = () => {
 
       <div className="h-6 w-px bg-neutral-300" />
 
+      <FontFamilyButton />
+
+      <div className="h-6 w-px bg-neutral-300" />
+
+      <HeadingLevelButton />
+
+      <div className="h-6 w-px bg-neutral-300" />
+
       {sections[1].map((item) => (
         <ToolbarButton key={item.label} {...item} />
       ))}
 
+      <TextColorButton />
+      <HighlightColorButton />
+
       <div className="h-6 w-px bg-neutral-300" />
+
+      <LinkButton />
 
       {sections[2].map((item) => (
         <ToolbarButton key={item.label} {...item} />

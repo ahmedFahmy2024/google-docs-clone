@@ -7,6 +7,9 @@ import StarterKit from "@tiptap/starter-kit";
 // import Image from "@tiptap/extension-image";
 import ImageResize from "tiptap-extension-resize-image";
 import { useEditorStore } from "@/store/use-editor-store";
+import { FontFamily, TextStyle, Color } from "@tiptap/extension-text-style";
+import Highlight from "@tiptap/extension-highlight";
+import Link from "@tiptap/extension-link";
 
 export const Editor = () => {
   const { setEditor } = useEditorStore();
@@ -45,6 +48,9 @@ export const Editor = () => {
     },
     extensions: [
       StarterKit,
+      Color,
+      FontFamily,
+      TextStyle,
       TaskList,
       // Image,
       ImageResize,
@@ -54,9 +60,32 @@ export const Editor = () => {
       TableKit.configure({
         table: { resizable: true },
       }),
+      Highlight.configure({ multicolor: true }),
+      Link.configure({
+        openOnClick: false,
+        autolink: true,
+        defaultProtocol: "https",
+      }),
     ],
     content: `
-        <p>This is a basic example of implementing images. Drag to re-order.</p>
+        <p><span style="font-family: Inter">Did you know that Inter is a really nice font for interfaces?</span></p>
+        <p><span style="font-family: Comic Sans MS, Comic Sans">It doesn’t look as professional as Comic Sans.</span></p>
+        <p><span style="font-family: serif">Serious people use serif fonts anyway.</span></p>
+        <p><span style="font-family: monospace">The cool kids can apply monospace fonts aswell.</span></p>
+        <p><span style="font-family: cursive">But hopefully we all can agree, that cursive fonts are the best.</span></p>
+        <p><span style="font-family: var(--title-font-family)">Then there are CSS variables, the new hotness.</span></p>
+        <p><span style="font-family: 'Exo 2'">TipTap even can handle exotic fonts as Exo 2.</span></p>
+        <p><span style="color: #958DF1">Oh, for some reason that’s purple.</span> This text is using <span style="color: rgba(255, 0, 0, 0.5)">transparent, red rgba colors.</span></p>
+        <p>This isn’t highlighted.</p>
+        <p><mark>But that one is.</mark></p>
+        <p><mark style="background-color: red;">And this is highlighted too, but in a different color.</mark></p>
+        <p><mark data-color="#ffa8a8">And this one has a data attribute.</mark></p>
+        <p>
+          Wow, this editor has support for links to the whole <a href="https://en.wikipedia.org/wiki/World_Wide_Web">world wide web</a>. We tested a lot of URLs and I think you can add *every URL* you want. Isn’t that cool? Let’s try <a href="https://statamic.com/">another one!</a> Yep, seems to work.
+        </p>
+        <p>
+          By default every link will get a <code>rel="noopener noreferrer nofollow"</code> attribute. It’s configurable though.
+        </p>
       `,
     immediatelyRender: false,
   });
