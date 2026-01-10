@@ -8,6 +8,8 @@ import Image from "@tiptap/extension-image";
 import ImageResize from "tiptap-extension-resize-image";
 import { useEditorStore } from "@/store/use-editor-store";
 import { FontFamily, TextStyle, Color } from "@tiptap/extension-text-style";
+import { LineHeight } from "./extensions/line-height";
+import { FontSize } from "./extensions/font-size";
 import Highlight from "@tiptap/extension-highlight";
 import Link from "@tiptap/extension-link";
 import TextAlign from "@tiptap/extension-text-align";
@@ -51,6 +53,10 @@ export const Editor = () => {
       StarterKit,
       Color,
       FontFamily,
+      LineHeight.configure({
+        types: ["heading", "paragraph"],
+      }),
+      FontSize,
       TextStyle,
       TaskList,
       Image,
