@@ -17,16 +17,16 @@ import {
 import { cn } from "@/lib/utils";
 import { useEditorStore } from "@/store/use-editor-store";
 import {
-  FontFamilyButton,
-  HeadingLevelButton,
-  TextColorButton,
-  HighlightColorButton,
-  LinkButton,
-  ImageButton,
   AlignButton,
-  ListButton,
+  FontFamilyButton,
   FontSizeButton,
+  HeadingLevelButton,
+  HighlightColorButton,
+  ImageButton,
   LineHeightButton,
+  LinkButton,
+  ListButton,
+  TextColorButton,
 } from "./helpers/helpers";
 
 interface ToolbarButtonProps {

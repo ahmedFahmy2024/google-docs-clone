@@ -1,0 +1,4 @@
+const PAGE_WIDTH = 816;
+const MINIMUN_SPACE = 56;
+
+export { PAGE_WIDTH, MINIMUN_SPACE };

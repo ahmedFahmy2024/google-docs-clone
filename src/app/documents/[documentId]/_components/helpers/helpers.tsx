@@ -1,14 +1,4 @@
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
-import { useEditorStore } from "@/store/use-editor-store";
-import { type Level } from "@tiptap/extension-heading";
+import type { Level } from "@tiptap/extension-heading";
 import { useEditorState } from "@tiptap/react";
 import {
   ALargeSmallIcon,
@@ -27,7 +17,17 @@ import {
   UploadIcon,
 } from "lucide-react";
 import { useState } from "react";
-import { type ColorResult, CirclePicker, SketchPicker } from "react-color";
+import { CirclePicker, type ColorResult, SketchPicker } from "react-color";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
+import { useEditorStore } from "@/store/use-editor-store";
 
 export const FontFamilyButton = () => {
   const { editor } = useEditorStore();
