@@ -1,23 +1,5 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
-import { DocumentInput } from "./document-input";
-import {
-  Menubar,
-  MenubarCheckboxItem,
-  MenubarContent,
-  MenubarItem,
-  MenubarMenu,
-  MenubarRadioGroup,
-  MenubarRadioItem,
-  MenubarSeparator,
-  MenubarShortcut,
-  MenubarSub,
-  MenubarSubContent,
-  MenubarSubTrigger,
-  MenubarTrigger,
-} from "@/components/ui/menubar";
 import {
   BoldIcon,
   FileIcon,
@@ -36,7 +18,25 @@ import {
   UnderlineIcon,
   Undo2Icon,
 } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 import { BsFilePdf } from "react-icons/bs";
+import {
+  Menubar,
+  MenubarCheckboxItem,
+  MenubarContent,
+  MenubarItem,
+  MenubarMenu,
+  MenubarRadioGroup,
+  MenubarRadioItem,
+  MenubarSeparator,
+  MenubarShortcut,
+  MenubarSub,
+  MenubarSubContent,
+  MenubarSubTrigger,
+  MenubarTrigger,
+} from "@/components/ui/menubar";
+import { DocumentInput } from "./document-input";
 
 export const Navbar = () => {
   return (
