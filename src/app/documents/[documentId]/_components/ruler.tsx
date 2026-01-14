@@ -67,28 +67,26 @@ export const Ruler = () => {
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseUp}
-      className="h-6 border-b border-gray-300 flex items-end relative select-none print:hidden"
+      style={{ width: `${PAGE_WIDTH}px` }}
+      className="mx-auto h-6 border-b border-gray-300 flex items-end relative select-none print:hidden"
     >
-      <Marker
-        position={leftMargin}
-        isLeft={true}
-        isDragging={isDraggingLeft}
-        onMouseDown={handleLeftMouseDown}
-        onDoubleClick={handleLeftDoubleClick}
-      />
-      <Marker
-        position={rightMargin}
-        isLeft={false}
-        isDragging={isDraggingRight}
-        onMouseDown={handleRightMouseDown}
-        onDoubleClick={handleRightDoubleClick}
-      />
-      <div
-        id="ruler-container"
-        className="max-w-[PAGE_WIDTHpx] mx-auto w-full h-full relative"
-      >
+      <div id="ruler-container" className="w-full h-full relative">
+        <Marker
+          position={leftMargin}
+          isLeft={true}
+          isDragging={isDraggingLeft}
+          onMouseDown={handleLeftMouseDown}
+          onDoubleClick={handleLeftDoubleClick}
+        />
+        <Marker
+          position={rightMargin}
+          isLeft={false}
+          isDragging={isDraggingRight}
+          onMouseDown={handleRightMouseDown}
+          onDoubleClick={handleRightDoubleClick}
+        />
         <div className="absolute inset-x-0 bottom-0 h-full">
-          <div className="relative h-full w-[PAGE_WIDTHpx]">
+          <div className="relative h-full" style={{ width: `${PAGE_WIDTH}px` }}>
             {markers.map((marker) => {
               const position = (marker * PAGE_WIDTH) / 82;
               return (
