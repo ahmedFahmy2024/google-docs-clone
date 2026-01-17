@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Carousel,
@@ -10,7 +11,6 @@ import {
 } from "@/components/ui/carousel";
 import { templates } from "@/constants/templates";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
 
 export const TemplateGallery = () => {
   const [isCreating, setIsCreating] = useState(false);
