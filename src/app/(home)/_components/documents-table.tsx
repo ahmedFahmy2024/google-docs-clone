@@ -1,6 +1,6 @@
 import type { PaginationStatus } from "convex/react";
 import { LoaderIcon } from "lucide-react";
-
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/table";
 import type { Doc } from "../../../../convex/_generated/dataModel";
 import { DocumentRow } from "./document-row";
-import { Button } from "@/components/ui/button";
 
 type Props = {
   documents: Doc<"documents">[] | undefined;
@@ -70,3 +69,20 @@ export const DocumentsTable = ({ documents, loadMore, status }: Props) => {
     </div>
   );
 };
+
+/**
+ * DocumentsTable Component
+ *
+ * A responsive, paginated table for displaying and managing documents.
+ *
+ * Props:
+ * - documents: An array of document objects from Convex, or undefined while loading.
+ * - loadMore: Function to trigger fetching of additional documents.
+ * - status: Current pagination status (LoadingFirstPage, CanLoadMore, etc.).
+ *
+ * Logic:
+ * 1. Loading State: Displays a spinner if `documents` is undefined.
+ * 2. Empty State: Displays "No documents found" if the array is empty.
+ * 3. Data State: maps through `documents` and renders a `DocumentRow` for each.
+ * 4. Pagination: A "Load more" button at the bottom that is disabled if no more items exist.
+ */

@@ -35,6 +35,7 @@ import {
 } from "@/components/ui/menubar";
 import { useEditorStore } from "@/store/use-editor-store";
 import { DocumentInput } from "./document-input";
+import { OrganizationSwitcher, UserButton } from "@clerk/nextjs";
 
 export const Navbar = () => {
   const { editor } = useEditorStore();
@@ -84,7 +85,7 @@ export const Navbar = () => {
 
   return (
     <nav className="flex items-center justify-between">
-      <div className="flex gap-2 items-center">
+      <div className="flex gap-2 items-center w-full">
         <Link href="/">
           <Image src="/logo.svg" alt="Logo" width={44} height={27} />
         </Link>
@@ -266,6 +267,16 @@ export const Navbar = () => {
               </MenubarMenu>
             </Menubar>
           </div>
+        </div>
+
+        <div className="flex gap-3 items-center pl-6 w-full justify-end">
+          <OrganizationSwitcher
+            afterCreateOrganizationUrl="/"
+            afterLeaveOrganizationUrl="/"
+            afterSelectOrganizationUrl="/"
+            afterSelectPersonalUrl="/"
+          />
+          <UserButton />
         </div>
       </div>
     </nav>

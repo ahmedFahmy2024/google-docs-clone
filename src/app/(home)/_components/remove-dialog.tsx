@@ -15,6 +15,8 @@ import {
 } from "@/components/ui/alert-dialog";
 import { api } from "../../../../convex/_generated/api";
 import type { Id } from "../../../../convex/_generated/dataModel";
+import { toast } from "sonner";
+import { getErrorMessage } from "@/lib/helpers";
 
 type Props = {
   documentId: Id<"documents">;
@@ -27,7 +29,14 @@ export const RemoveDialog = ({ documentId, children }: Props) => {
 
   const handleRemove = () => {
     startTransition(() => {
-      removeDocument({ id: documentId });
+      removeDocument({ id: documentId })
+        .then(() => {
+          toast.success("Document removed successfully");
+        })
+        .catch((error) => {
+          const message = getErrorMessage(error, "Failed to remove document");
+          toast.error(message);
+        });
     });
   };
 

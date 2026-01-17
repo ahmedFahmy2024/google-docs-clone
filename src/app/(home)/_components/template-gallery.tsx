@@ -14,6 +14,8 @@ import {
 import { templates } from "@/constants/templates";
 import { cn } from "@/lib/utils";
 import { api } from "../../../../convex/_generated/api";
+import { toast } from "sonner";
+import { getErrorMessage } from "@/lib/helpers";
 
 export const TemplateGallery = () => {
   const [isCreating, setIsCreating] = useState(false);
@@ -24,7 +26,12 @@ export const TemplateGallery = () => {
     setIsCreating(true);
     createDocument(values)
       .then((documentId) => {
+        toast.success("Document created successfully");
         router.push(`/documents/${documentId}`);
+      })
+      .catch((error) => {
+        const message = getErrorMessage(error, "Failed to create document");
+        toast.error(message);
       })
       .finally(() => {
         setIsCreating(false);
