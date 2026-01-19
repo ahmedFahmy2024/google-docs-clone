@@ -64,6 +64,7 @@ export const Toolbar = () => {
       isItalic: ctx.editor?.isActive("italic"),
       isUnderline: ctx.editor?.isActive("underline"),
       isTaskList: ctx.editor?.isActive("taskList"),
+      isComment: ctx.editor?.isActive("liveblocksCommentMark"),
     }),
   });
 
@@ -139,7 +140,8 @@ export const Toolbar = () => {
       {
         label: "Comment",
         icon: MessageSquarePlusIcon,
-        onClick: () => {},
+        onClick: () => editor?.chain().focus().addPendingComment().run(),
+        isActive: editorState?.isComment,
       },
       {
         label: "List Todo",
