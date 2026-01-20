@@ -1,3 +1,9 @@
+import {
+  ClientSideSuspense,
+  useInboxNotifications,
+} from "@liveblocks/react/suspense";
+import { InboxNotification, InboxNotificationList } from "@liveblocks/react-ui";
+import { BellIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -5,12 +11,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { InboxNotification, InboxNotificationList } from "@liveblocks/react-ui";
-import {
-  ClientSideSuspense,
-  useInboxNotifications,
-} from "@liveblocks/react/suspense";
-import { BellIcon } from "lucide-react";
 
 export const Inbox = () => {
   return (

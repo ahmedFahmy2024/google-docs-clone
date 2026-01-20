@@ -3,6 +3,7 @@
 import { useMutation } from "convex/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
   Carousel,
@@ -12,10 +13,9 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { templates } from "@/constants/templates";
+import { getErrorMessage } from "@/lib/helpers";
 import { cn } from "@/lib/utils";
 import { api } from "../../../../convex/_generated/api";
-import { toast } from "sonner";
-import { getErrorMessage } from "@/lib/helpers";
 
 export const TemplateGallery = () => {
   const [isCreating, setIsCreating] = useState(false);
@@ -60,7 +60,7 @@ export const TemplateGallery = () => {
                     onClick={() =>
                       handleCreate({
                         title: template.label,
-                        initialContent: "",
+                        initialContent: template.initialContent,
                       })
                     }
                     style={{

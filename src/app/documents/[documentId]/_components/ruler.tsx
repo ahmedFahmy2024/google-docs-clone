@@ -1,5 +1,6 @@
 /** biome-ignore-all lint/a11y/noStaticElementInteractions: <explanation> */
 
+import { useMutation, useStorage } from "@liveblocks/react/suspense";
 import { useRef, useState } from "react";
 import { FaCaretDown } from "react-icons/fa";
 import { MINIMUN_SPACE, PAGE_WIDTH } from "@/constants";
@@ -7,8 +8,15 @@ import { MINIMUN_SPACE, PAGE_WIDTH } from "@/constants";
 const markers = Array.from({ length: 83 }, (_, index) => index);
 
 export const Ruler = () => {
-  const [leftMargin, setLeftMargin] = useState(MINIMUN_SPACE);
-  const [rightMargin, setRightMargin] = useState(MINIMUN_SPACE);
+  const leftMargin = useStorage((r) => r.leftMargin);
+  const setLeftMargin = useMutation(({ storage }, position: number) => {
+    storage.set("leftMargin", position);
+  }, []);
+
+  const rightMargin = useStorage((r) => r.rightMargin);
+  const setRightMargin = useMutation(({ storage }, position: number) => {
+    storage.set("rightMargin", position);
+  }, []);
 
   const [isDraggingLeft, setIsDraggingLeft] = useState(false);
   const [isDraggingRight, setIsDraggingRight] = useState(false);

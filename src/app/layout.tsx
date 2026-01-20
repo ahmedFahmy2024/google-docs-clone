@@ -5,8 +5,8 @@ import "@liveblocks/react-tiptap/styles.css";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
-import ConvexClientProvider from "@/providers/ConvexClientProvider";
 import { Toaster } from "@/components/ui/sonner";
+import ConvexClientProvider from "@/providers/ConvexClientProvider";
 
 const inter = Inter({
   subsets: ["latin"],

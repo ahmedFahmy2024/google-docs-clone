@@ -1,5 +1,7 @@
 "use client";
 
+import { useStorage } from "@liveblocks/react/suspense";
+import { useLiveblocksExtension } from "@liveblocks/react-tiptap";
 import Highlight from "@tiptap/extension-highlight";
 import Image from "@tiptap/extension-image";
 import Link from "@tiptap/extension-link";
@@ -14,12 +16,20 @@ import { useEditorStore } from "@/store/use-editor-store";
 import { FontSize } from "./extensions/font-size";
 import { LineHeight } from "./extensions/line-height";
 import { Ruler } from "./ruler";
-import { useLiveblocksExtension } from "@liveblocks/react-tiptap";
 import { Threads } from "./threads";
 
-export const Editor = () => {
-  const liveblocks = useLiveblocksExtension();
+interface Props {
+  initialContent?: string | undefined;
+}
+
+export const Editor = ({ initialContent }: Props) => {
+  const liveblocks = useLiveblocksExtension({
+    initialContent,
+    offlineSupport_experimental: true,
+  });
   const { setEditor } = useEditorStore();
+  const leftMargin = useStorage((r) => r.leftMargin);
+  const rightMargin = useStorage((r) => r.rightMargin);
 
   const editor = useEditor({
     onCreate: ({ editor }) => {
@@ -48,7 +58,7 @@ export const Editor = () => {
     },
     editorProps: {
       attributes: {
-        style: "padding-left: 56px; padding-right: 56px",
+        style: `padding-left: ${leftMargin ?? 56}px; padding-right: ${rightMargin ?? 56}px`,
         class:
           "prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto focus:outline-none print:border-0 bg-white border border-[#C7C7C7] flex flex-col min-h-[1054px] w-[816px] pt-10 pr-14 pb-10 cursor-text",
       },
@@ -84,7 +94,7 @@ export const Editor = () => {
         types: ["heading", "paragraph"],
       }),
     ],
-    content: ``,
+    content: "",
     immediatelyRender: false,
   });
 

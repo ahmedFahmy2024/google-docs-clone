@@ -1,16 +1,17 @@
 "use client";
 
-import { getDocumentsByIds, getUsers } from "@/actions/actions";
-import { FullScreenLoader } from "@/components/full-screen-loader";
 import {
   ClientSideSuspense,
   LiveblocksProvider,
   RoomProvider,
 } from "@liveblocks/react/suspense";
 import { useParams } from "next/navigation";
-import { ReactNode, useCallback, useEffect, useState } from "react";
+import { type ReactNode, useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
-import { Id } from "../../../../../convex/_generated/dataModel";
+import { getDocumentsByIds, getUsers } from "@/actions/actions";
+import { FullScreenLoader } from "@/components/full-screen-loader";
+import { MINIMUN_SPACE } from "@/constants";
+import type { Id } from "../../../../../convex/_generated/dataModel";
 
 type User = {
   id: string;
@@ -54,7 +55,9 @@ export function Room({ children }: { children: ReactNode }) {
       resolveUsers={async ({ userIds }) => {
         return userIds.map((userId) => {
           const user = users.find((u) => u.id === userId);
-          return user ? { name: user.name, avatar: user.avatar } : undefined;
+          return user
+            ? { name: user.name, avatar: user.avatar, color: "" }
+            : undefined;
         });
       }}
       resolveMentionSuggestions={async ({ text }) => {
@@ -76,7 +79,13 @@ export function Room({ children }: { children: ReactNode }) {
         }));
       }}
     >
-      <RoomProvider id={documentId as string}>
+      <RoomProvider
+        id={documentId as string}
+        initialStorage={{
+          leftMargin: MINIMUN_SPACE,
+          rightMargin: MINIMUN_SPACE,
+        }}
+      >
         <ClientSideSuspense
           fallback={<FullScreenLoader label="Room loading" />}
         >

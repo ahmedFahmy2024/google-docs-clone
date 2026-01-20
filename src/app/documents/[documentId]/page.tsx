@@ -1,26 +1,35 @@
-import { Editor } from "./_components/editor";
-import { Navbar } from "./_components/navbar";
-import { Room } from "./_components/room";
-import { Toolbar } from "./_components/toolbar";
+import { auth } from "@clerk/nextjs/server";
+import { preloadQuery } from "convex/nextjs";
+import { api } from "../../../../convex/_generated/api";
+import type { Id } from "../../../../convex/_generated/dataModel";
+import { Document } from "./_components/document";
 
 type Props = {
-  params: Promise<{ documentId: string }>;
+  params: Promise<{ documentId: Id<"documents"> }>;
 };
 
 export default async function DocumentIdPage({ params }: Props) {
   const { documentId } = await params;
+  const { getToken } = await auth();
+  const token = (await getToken({ template: "convex" })) ?? undefined;
 
-  return (
-    <Room>
-      <div className="min-h-screen bg-[#FAFBFD]">
-        <div className="flex flex-col px-4 pt-2 gap-y-2 fixed top-0 left-0 right-0 z-10 bg-[#FAFBFD] print:hidden">
-          <Navbar />
-          <Toolbar />
-        </div>
-        <div className="pt-[114px] print:pt-0">
-          <Editor />
-        </div>
-      </div>
-    </Room>
+  if (!token) {
+    throw new Error("Unauthorized");
+  }
+
+  const preloadDocument = await preloadQuery(
+    api.documents.getDocument,
+    {
+      id: documentId,
+    },
+    { token },
+    // we can use it without token so why we attach it cuz in client componenet it attach token by itself but here in server we need to attach it manually
+    //again why we add it if we check for
+    // const user = await ctx.auth.getUserIdentity();
+    // if (!user) {
+    //   throw new ConvexError("Unauthorized");
+    // } we will not pass this because token we dont have but if we attach it here now we will pass it
   );
+
+  return <Document preloadDocument={preloadDocument} />;
 }
